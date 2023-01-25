@@ -121,8 +121,7 @@ class _KeywordListPageState extends State<KeywordListPage> {
 
   _loadKeywords() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    _keywords =
-        prefs.getStringList('keywords') ?? ['Organisation', 'Basisdemokratie'];
+    _keywords = prefs.getStringList('keywords') ?? ['Organisation', 'Basisdemokratie'];
     setState(() {});
   }
 }
@@ -166,8 +165,7 @@ class _SearchPageState extends State<SearchPage> {
             ),
           ),
           for (String key in widget.keywords)
-            if (_keywordIndices.isNotEmpty && _keywordIndices[key]!.isNotEmpty)
-              Text("Found $key ${_keywordIndices[key]!.length} x "),
+            if (_keywordIndices.isNotEmpty && _keywordIndices[key]!.isNotEmpty) Text("Found $key ${_keywordIndices[key]!.length} x "),
           Expanded(
             child: SingleChildScrollView(
               child: ListView.builder(
@@ -202,8 +200,7 @@ class _SearchPageState extends State<SearchPage> {
     List<TextSpan> spans = [];
     for (String word in sentence.split(" ")) {
       if (word.toLowerCase().contains(keyword.toLowerCase()) == true) {
-        spans.add(TextSpan(
-            text: "$word ", style: const TextStyle(color: Colors.red)));
+        spans.add(TextSpan(text: "$word ", style: const TextStyle(color: Colors.red)));
       } else {
         spans.add(TextSpan(text: "$word "));
       }
@@ -214,8 +211,7 @@ class _SearchPageState extends State<SearchPage> {
   void _search() {
     setState(() {
       _keywordIndices.clear();
-      List<String> sentences =
-          _searchController.text.split(RegExp(r"(?<=[.!?])\s"));
+      List<String> sentences = _searchController.text.split(RegExp(r"(?<=[.!?])\s"));
       for (String keyword in widget.keywords) {
         _keywordIndices[keyword] = [];
         for (String sentence in sentences) {
