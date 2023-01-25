@@ -214,8 +214,8 @@ class _SearchPageState extends State<SearchPage> {
   void _search() {
     setState(() {
       _keywordIndices.clear();
-      String searchText = _searchController.text.toLowerCase();
-      List<String> sentences = searchText.split(RegExp(r"(?<=[.!?])\s"));
+      List<String> sentences =
+          _searchController.text.split(RegExp(r"(?<=[.!?])\s"));
       for (String keyword in widget.keywords) {
         _keywordIndices[keyword] = [];
         for (String sentence in sentences) {
