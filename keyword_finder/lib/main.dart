@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:bitsdojo_window/bitsdojo_window.dart';
 
@@ -138,7 +137,7 @@ class SearchPage extends StatefulWidget {
 
 class _SearchPageState extends State<SearchPage> {
   final _searchController = TextEditingController();
-  final Map<String, List<int>> _keywordIndices = {};
+  final Map<String, List<String>> _keywordIndices = {};
 
   @override
   void initState() {
@@ -166,26 +165,30 @@ class _SearchPageState extends State<SearchPage> {
             ),
           ),
           Expanded(
-            child: ListView.builder(
-              itemCount: _keywordIndices.keys.length,
-              itemBuilder: (context, index) {
-                String keyword = _keywordIndices.keys.elementAt(index);
-                return Column(
-                  children: <Widget>[
-                    ListTile(
-                      title: Text(keyword),
-                      trailing:
-                          Text(_keywordIndices[keyword]!.length.toString()),
-                      subtitle: Column(
-                        children: <Widget>[
-                          for (int i in _keywordIndices[keyword]!)
-                            Text("- At index $i"),
-                        ],
-                      ),
-                    ),
-                  ],
-                );
-              },
+            child: SingleChildScrollView(
+              child: ListView.builder(
+                scrollDirection: Axis.vertical,
+                shrinkWrap: true,
+                itemCount: _keywordIndices.keys.length,
+                itemBuilder: (context, index) {
+                  String keyword = _keywordIndices.keys.elementAt(index);
+                  return Column(
+                    children: [
+                      for (String sentence in _keywordIndices[keyword]!)
+                        ListTile(
+                          title: Text.rich(
+                            TextSpan(
+                              style: DefaultTextStyle.of(context).style,
+                              children: _buildTextSpans(sentence, keyword),
+                            ),
+                          ),
+                          subtitle: Text(
+                              "Found: ${_keywordIndices[keyword]!.length}"),
+                        ),
+                    ],
+                  );
+                },
+              ),
             ),
           ),
         ],
@@ -193,20 +196,30 @@ class _SearchPageState extends State<SearchPage> {
     );
   }
 
+  List<TextSpan> _buildTextSpans(String sentence, String keyword) {
+    List<TextSpan> spans = [];
+    for (String word in sentence.split(" ")) {
+      if (word.toLowerCase() == keyword.toLowerCase()) {
+        spans.add(TextSpan(
+            text: "$word ", style: const TextStyle(color: Colors.red)));
+      } else {
+        spans.add(TextSpan(text: "$word "));
+      }
+    }
+    return spans;
+  }
+
   void _search() {
     setState(() {
       _keywordIndices.clear();
       String searchText = _searchController.text.toLowerCase();
+      List<String> sentences = searchText.split(RegExp(r"(?<=[.!?])\s"));
       for (String keyword in widget.keywords) {
-        int index = searchText.indexOf(keyword.toLowerCase());
-        while (index != -1) {
-          if (!_keywordIndices.containsKey(keyword)) {
-            _keywordIndices[keyword] = [];
+        _keywordIndices[keyword] = [];
+        for (String sentence in sentences) {
+          if (sentence.toLowerCase().contains(keyword.toLowerCase())) {
+            _keywordIndices[keyword]!.add(sentence);
           }
-          if (!_keywordIndices[keyword]!.contains(index)) {
-            _keywordIndices[keyword]!.add(index);
-          }
-          index = searchText.indexOf(keyword.toLowerCase(), index + 1);
         }
       }
     });
