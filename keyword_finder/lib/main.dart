@@ -199,7 +199,7 @@ class _SearchPageState extends State<SearchPage> {
   List<TextSpan> _buildTextSpans(String sentence, String keyword) {
     List<TextSpan> spans = [];
     for (String word in sentence.split(" ")) {
-      if (word.toLowerCase() == keyword.toLowerCase()) {
+      if (word.toLowerCase().contains(keyword.toLowerCase()) == true) {
         spans.add(TextSpan(
             text: "$word ", style: const TextStyle(color: Colors.red)));
       } else {
