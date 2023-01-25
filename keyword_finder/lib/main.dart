@@ -161,7 +161,7 @@ class _SearchPageState extends State<SearchPage> {
               decoration: const InputDecoration(
                 hintText: 'Enter any text',
               ),
-              maxLines: null,
+              maxLines: 10,
               keyboardType: TextInputType.multiline,
             ),
           ),
