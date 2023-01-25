@@ -6,7 +6,7 @@ import FlutterMacOS
 import Foundation
 
 import bitsdojo_window_macos
-import path_provider_macos
+import path_provider_foundation
 import shared_preferences_foundation
 
 func RegisterGeneratedPlugins(registry: FlutterPluginRegistry) {

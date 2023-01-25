@@ -121,7 +121,8 @@ class _KeywordListPageState extends State<KeywordListPage> {
 
   _loadKeywords() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    _keywords = prefs.getStringList('keywords') ?? [];
+    _keywords =
+        prefs.getStringList('keywords') ?? ['Organisation', 'Basisdemokratie'];
     setState(() {});
   }
 }
@@ -164,6 +165,11 @@ class _SearchPageState extends State<SearchPage> {
               keyboardType: TextInputType.multiline,
             ),
           ),
+          for (String keyword in widget.keywords)
+            if (_keywordIndices.isNotEmpty &&
+                _keywordIndices[keyword]!.isNotEmpty)
+              Text(
+                  "Found '$keyword' ${_keywordIndices[keyword]!.length} times!"),
           Expanded(
             child: SingleChildScrollView(
               child: ListView.builder(
@@ -182,8 +188,6 @@ class _SearchPageState extends State<SearchPage> {
                               children: _buildTextSpans(sentence, keyword),
                             ),
                           ),
-                          subtitle: Text(
-                              "Found: ${_keywordIndices[keyword]!.length}"),
                         ),
                     ],
                   );
