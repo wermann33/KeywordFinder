@@ -165,11 +165,9 @@ class _SearchPageState extends State<SearchPage> {
               keyboardType: TextInputType.multiline,
             ),
           ),
-          for (String keyword in widget.keywords)
-            if (_keywordIndices.isNotEmpty &&
-                _keywordIndices[keyword]!.isNotEmpty)
-              Text(
-                  "Found '$keyword' ${_keywordIndices[keyword]!.length} times!"),
+          for (String key in widget.keywords)
+            if (_keywordIndices.isNotEmpty && _keywordIndices[key]!.isNotEmpty)
+              Text("Found $key ${_keywordIndices[key]!.length} x "),
           Expanded(
             child: SingleChildScrollView(
               child: ListView.builder(
