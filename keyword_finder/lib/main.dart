@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:bitsdojo_window/bitsdojo_window.dart';
@@ -211,7 +213,8 @@ class _SearchPageState extends State<SearchPage> {
   void _search() {
     setState(() {
       _keywordIndices.clear();
-      List<String> sentences = _searchController.text.split(RegExp(r"(?<=[.!?])\s"));
+      LineSplitter ls = const LineSplitter();
+      List<String> sentences = ls.convert(_searchController.text);
       for (String keyword in widget.keywords) {
         _keywordIndices[keyword] = [];
         for (String sentence in sentences) {
