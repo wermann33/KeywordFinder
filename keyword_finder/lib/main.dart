@@ -77,45 +77,59 @@ class _KeywordListPageState extends State<KeywordListPage> {
               },
             ),
           ),
-          TextField(
-            controller: _keywordsController,
-            decoration: const InputDecoration(
-              hintText: 'Keyword eingeben',
-            ),
-            onSubmitted: (value) {
-              if (value.isNotEmpty) {
-                setState(() {
-                  _keywords.add(value);
-                  _keywordsController.clear();
-                  _saveKeywords();
-                });
-              }
-            },
+          Row(
+            children: [
+              Flexible(
+                child: TextField(
+                  controller: _keywordsController,
+                  decoration: const InputDecoration(
+                    hintText: 'Keyword eingeben',
+                  ),
+                  onSubmitted: (value) {
+                    if (value.isNotEmpty) {
+                      setState(() {
+                        _keywords.add(value);
+                        _keywordsController.clear();
+                        _saveKeywords();
+                      });
+                    }
+                  },
+                ),
+              ),
+              ElevatedButton(
+                child: const Text('Keyword Hinzufügen'),
+                onPressed: () {
+                  if (_keywordsController.text.isNotEmpty) {
+                    setState(() {
+                      _keywords.add(_keywordsController.text);
+                      _keywordsController.clear();
+                      _saveKeywords();
+                    });
+                  }
+                },
+              ),
+            ],
           ),
-          ElevatedButton(
-            child: const Text('Hinzufügen'),
-            onPressed: () {
-              if (_keywordsController.text.isNotEmpty) {
-                setState(() {
-                  _keywords.add(_keywordsController.text);
-                  _keywordsController.clear();
-                  _saveKeywords();
-                });
-              }
-            },
+          const SizedBox(height: 10),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(fixedSize: const Size(500, 60)),
+                child: const Text('Text eingeben und nach Keywords durchsuchen'),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => SearchPage(keywords: _keywords),
+                    ),
+                  );
+                },
+              ),
+            ],
           ),
         ],
-      ),
-      floatingActionButton: FloatingActionButton(
-        child: const Icon(Icons.search),
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => SearchPage(keywords: _keywords),
-            ),
-          );
-        },
       ),
     );
   }
@@ -204,6 +218,7 @@ class _SearchPageState extends State<SearchPage> {
 
   List<TextSpan> _buildTextSpans(String sentence, String keyword) {
     List<TextSpan> spans = [];
+    spans.add(const TextSpan(text: '-) '));
     for (String word in sentence.split(" ")) {
       if (word.toLowerCase().contains(keyword.toLowerCase()) == true) {
         spans.add(TextSpan(text: "$word ", style: const TextStyle(color: Colors.red)));
