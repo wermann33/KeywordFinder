@@ -83,21 +83,25 @@ class _KeywordListPageState extends State<KeywordListPage> {
               hintText: 'Keyword eingeben',
             ),
             onSubmitted: (value) {
-              setState(() {
-                _keywords.add(value);
-                _keywordsController.clear();
-                _saveKeywords();
-              });
+              if (value.isNotEmpty) {
+                setState(() {
+                  _keywords.add(value);
+                  _keywordsController.clear();
+                  _saveKeywords();
+                });
+              }
             },
           ),
           ElevatedButton(
             child: const Text('Hinzufügen'),
             onPressed: () {
-              setState(() {
-                _keywords.add(_keywordsController.text);
-                _keywordsController.clear();
-                _saveKeywords();
-              });
+              if (_keywordsController.text.isNotEmpty) {
+                setState(() {
+                  _keywords.add(_keywordsController.text);
+                  _keywordsController.clear();
+                  _saveKeywords();
+                });
+              }
             },
           ),
         ],
