@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Keyword List',
+      title: 'Keyword Liste',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
@@ -54,7 +54,7 @@ class _KeywordListPageState extends State<KeywordListPage> {
     //calculating the height of the keyword list
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Keyword List'),
+        title: const Text('Keyword Liste'),
       ),
       body: Column(
         children: <Widget>[
@@ -80,7 +80,7 @@ class _KeywordListPageState extends State<KeywordListPage> {
           TextField(
             controller: _keywordsController,
             decoration: const InputDecoration(
-              hintText: 'Enter a keyword',
+              hintText: 'Keyword eingeben',
             ),
             onSubmitted: (value) {
               setState(() {
@@ -91,7 +91,7 @@ class _KeywordListPageState extends State<KeywordListPage> {
             },
           ),
           ElevatedButton(
-            child: const Text('Add'),
+            child: const Text('Hinzufügen'),
             onPressed: () {
               setState(() {
                 _keywords.add(_keywordsController.text);
@@ -151,7 +151,7 @@ class _SearchPageState extends State<SearchPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Search'),
+        title: const Text('Suche'),
       ),
       body: Column(
         children: <Widget>[
@@ -160,14 +160,14 @@ class _SearchPageState extends State<SearchPage> {
             child: TextField(
               controller: _searchController,
               decoration: const InputDecoration(
-                hintText: 'Enter any text',
+                hintText: 'Text eingeben oder per Copy/Paste einfügen',
               ),
               maxLines: 10,
               keyboardType: TextInputType.multiline,
             ),
           ),
           for (String key in widget.keywords)
-            if (_keywordIndices.isNotEmpty && _keywordIndices[key]!.isNotEmpty) Text("Found $key ${_keywordIndices[key]!.length} x "),
+            if (_keywordIndices.isNotEmpty && _keywordIndices[key]!.isNotEmpty) Text("Gefunden:  $key ${_keywordIndices[key]!.length} x "),
           Expanded(
             child: SingleChildScrollView(
               child: ListView.builder(
