@@ -51,6 +51,9 @@ class _KeywordListPageState extends State<KeywordListPage> {
 
   @override
   Widget build(BuildContext context) {
+    _keywords.sort((a, b) {
+      return a.toLowerCase().compareTo(b.toLowerCase());
+    });
     //calculating the height of the keyword list
     return Scaffold(
       appBar: AppBar(
@@ -81,6 +84,7 @@ class _KeywordListPageState extends State<KeywordListPage> {
             children: [
               Flexible(
                 child: TextField(
+                  textInputAction: TextInputAction.none,
                   controller: _keywordsController,
                   decoration: const InputDecoration(
                     hintText: 'Keyword eingeben',
