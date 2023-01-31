@@ -86,9 +86,7 @@ class _KeywordListPageState extends State<KeywordListPage> {
                 child: TextField(
                   textInputAction: TextInputAction.none,
                   controller: _keywordsController,
-                  decoration: const InputDecoration(
-                    hintText: 'Keyword eingeben',
-                  ),
+                  decoration: const InputDecoration(hintText: 'Keyword eingeben', hintStyle: TextStyle(fontSize: 18)),
                   onSubmitted: (value) {
                     if (value.isNotEmpty) {
                       setState(() {
@@ -101,7 +99,13 @@ class _KeywordListPageState extends State<KeywordListPage> {
                 ),
               ),
               ElevatedButton(
-                child: const Text('Keyword Hinzufügen'),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.blueGrey,
+                ),
+                child: const Text(
+                  'Keyword Hinzufügen',
+                  style: TextStyle(fontSize: 16),
+                ),
                 onPressed: () {
                   if (_keywordsController.text.isNotEmpty) {
                     setState(() {
@@ -120,8 +124,14 @@ class _KeywordListPageState extends State<KeywordListPage> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               ElevatedButton(
-                style: ElevatedButton.styleFrom(fixedSize: const Size(500, 60)),
-                child: const Text('Text eingeben und nach Keywords durchsuchen'),
+                style: ElevatedButton.styleFrom(
+                  fixedSize: const Size(500, 60),
+                  backgroundColor: Colors.yellow,
+                ),
+                child: const Text(
+                  'Text eingeben und nach Keywords durchsuchen',
+                  style: TextStyle(color: Colors.black, fontSize: 18),
+                ),
                 onPressed: () {
                   Navigator.push(
                     context,
@@ -181,37 +191,42 @@ class _SearchPageState extends State<SearchPage> {
             padding: const EdgeInsets.all(16),
             child: TextField(
               controller: _searchController,
-              decoration: const InputDecoration(
-                hintText: 'Text eingeben oder per Copy/Paste einfügen',
-              ),
+              decoration: const InputDecoration(hintText: 'Text eingeben oder per Copy/Paste einfügen', hintStyle: TextStyle(fontSize: 20)),
               maxLines: 10,
               keyboardType: TextInputType.multiline,
             ),
           ),
           for (String key in widget.keywords)
-            if (_keywordIndices.isNotEmpty && _keywordIndices[key]!.isNotEmpty) Text("Gefunden:  $key ${_keywordIndices[key]!.length} x "),
+            if (_keywordIndices.isNotEmpty && _keywordIndices[key]!.isNotEmpty)
+              Text(
+                "Gefunden:  $key ${_keywordIndices[key]!.length} x ",
+                style: const TextStyle(backgroundColor: Colors.deepOrange, fontSize: 16),
+              ),
           Expanded(
-            child: SingleChildScrollView(
-              child: ListView.builder(
-                scrollDirection: Axis.vertical,
-                shrinkWrap: true,
-                itemCount: _keywordIndices.keys.length,
-                itemBuilder: (context, index) {
-                  String keyword = _keywordIndices.keys.elementAt(index);
-                  return Column(
-                    children: [
-                      for (String sentence in _keywordIndices[keyword]!)
-                        ListTile(
-                          title: Text.rich(
-                            TextSpan(
-                              style: DefaultTextStyle.of(context).style,
-                              children: _buildTextSpans(sentence, keyword),
+            child: Container(
+              color: const Color.fromARGB(255, 150, 205, 219),
+              child: SingleChildScrollView(
+                child: ListView.builder(
+                  scrollDirection: Axis.vertical,
+                  shrinkWrap: true,
+                  itemCount: _keywordIndices.keys.length,
+                  itemBuilder: (context, index) {
+                    String keyword = _keywordIndices.keys.elementAt(index);
+                    return Column(
+                      children: [
+                        for (String sentence in _keywordIndices[keyword]!)
+                          ListTile(
+                            title: Text.rich(
+                              TextSpan(
+                                style: DefaultTextStyle.of(context).style,
+                                children: _buildTextSpans(sentence, keyword),
+                              ),
                             ),
                           ),
-                        ),
-                    ],
-                  );
-                },
+                      ],
+                    );
+                  },
+                ),
               ),
             ),
           ),
