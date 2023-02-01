@@ -1,20 +1,23 @@
 import 'dart:convert';
-
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:bitsdojo_window/bitsdojo_window.dart';
 
 void main() {
   runApp(const MyApp());
-  doWhenWindowReady(() {
-    final win = appWindow;
-    const initialSize = Size(1200, 800);
-    win.minSize = const Size(800, 600);
-    win.size = initialSize;
-    win.alignment = Alignment.center;
-    win.title = "Keyword Finder";
-    win.show();
-  });
+
+  if (!Platform.isAndroid) {
+    doWhenWindowReady(() {
+      final win = appWindow;
+      const initialSize = Size(1200, 800);
+      win.minSize = const Size(800, 600);
+      win.size = initialSize;
+      win.alignment = Alignment.center;
+      win.title = "Keyword Finder";
+      win.show();
+    });
+  }
 }
 
 class MyApp extends StatelessWidget {
