@@ -107,4 +107,6 @@ msix_config:
   identity_name: company.suite.flutterapp
   msix_version: 1.0.0.0
   logo_path: Z:\FlutterProjects\KeywordFinder\2504063.png
-  capabilities: Keyword-Liste bearbeiten und Texte danacj durchsuchen
+  capabilities: local
+  certificate_path: Z:\FlutterProjects\keyword_finder.pfx
+  certificate_password: mephisto
